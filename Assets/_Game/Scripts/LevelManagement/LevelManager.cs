@@ -43,6 +43,13 @@ namespace TemplateFx.Managers
 
         public void OnGoButtonIsClick()
         {
+            
+
+            if (GridManager.Instance.ObjectCounter() == 0)
+            {
+                Debug.Log("Return");
+                return;
+            }
             eventManager.OnMergeStageIsFinish();
         }
 

@@ -29,11 +29,10 @@ namespace TemplateFx
 
         public Action OnBreakStageIsFinishAction;
 
-        public Action OnRunnerStageIsFinishAction;
-
         public Action<GateEnum, IGate> OnGateIsCollectedAction;
 
-        public Action<float> OnBulletHitTheGunAction;
+        public Action<BoostTypes> OnBoostCollectedAction;
+
 
         public GameStage GetStage()
         {
@@ -79,21 +78,18 @@ namespace TemplateFx
 
         }
 
-        public void OnRunnerStageIsFinish()
-        {
-            OnRunnerStageIsFinishAction?.Invoke();
-        }
+       
 
         public void OnGateIsCollected(GateEnum gateEnum, IGate gate)
         {
             OnGateIsCollectedAction?.Invoke(gateEnum, gate);
         }
 
-        public void OnBulletHitTheGun(float xPos)
+       
+        public void OnBoostCollected(BoostTypes type)
         {
-            OnBulletHitTheGunAction?.Invoke(xPos);
+            OnBoostCollectedAction?.Invoke(type);
         }
-
 
     }
 }

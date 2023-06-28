@@ -12,6 +12,7 @@ namespace TemplateFx
         private const string strMoney = "Money";
         [SerializeField] private TextMeshProUGUI _textLevel;
         [SerializeField] private TextMeshProUGUI _textMoney;
+        [SerializeField] private GameObject _buttonsObject;
         [SerializeField] private int _moneyIndex = 0;
         
         // Start is called before the first frame update
@@ -20,10 +21,34 @@ namespace TemplateFx
 
         public void ViewPlayStart()
         {
-            OnMoneyChange(0);
+            _buttonsObject.SetActive(true);
+            if(PlayerPrefs.GetInt(strMoney) == 0)
+            {
+                OnMoneyChange(30);
+            }
+            else
+            {
+                OnMoneyChange(0);
+            }
+         
             _textLevel.text = "LEVEL " + (LevelManager.Instance.datas.level + 1);
         }
 
+        private void OnEnable()
+        {
+            LevelManager.Instance.eventManager.OnMergeStageIsFinishAction += OnMergeStageFinish;
+        }
+
+        private void OnMergeStageFinish()
+        {
+            _buttonsObject.SetActive(false);
+        }
+
+       
+        private void OnDisable()
+        {
+            LevelManager.Instance.eventManager.OnMergeStageIsFinishAction -= OnMergeStageFinish;
+        }
 
         private void Update()
         {

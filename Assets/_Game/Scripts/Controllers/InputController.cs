@@ -49,16 +49,7 @@ namespace TemplateFx.Controller
 
         void Update()
         {
-            if ((Input.GetMouseButton(0) || Input.GetMouseButtonUp(0)))
-            {
-                if (Input.GetMouseButtonDown(0))
-                    TouchStarted();
-
-                if (!isGameEnded & isGameStarted) Touching();
-
-                if (Input.GetMouseButtonUp(0))
-                    TouchFinished();
-            }
+            
             if ((Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer) && Input.touchCount > 0)
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
@@ -67,6 +58,16 @@ namespace TemplateFx.Controller
                 if (!isGameEnded & isGameStarted) Touching();
 
                 if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                    TouchFinished();
+            }
+            else if ((Input.GetMouseButton(0) || Input.GetMouseButtonUp(0)))
+            {
+                if (Input.GetMouseButtonDown(0))
+                    TouchStarted();
+
+                if (!isGameEnded & isGameStarted) Touching();
+
+                if (Input.GetMouseButtonUp(0))
                     TouchFinished();
             }
         }

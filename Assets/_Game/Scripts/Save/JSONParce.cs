@@ -19,44 +19,47 @@ public class SaveBullet
     public Vector3 v3BulletPos;
 }
 
-
-
-[DefaultExecutionOrder(-1)]
-public class JSONParce : Singleton<JSONParce>
+namespace TemplateFx
 {
-    public SaveClassBullet saveClassBullet;
-    private void Start()
+    [DefaultExecutionOrder(-1)]
+    public class JSONParce : Singleton<JSONParce>
     {
-        if(PlayerPrefs.GetInt("Json") == 0)
+        public SaveClassBullet saveClassBullet;
+        private void Start()
         {
-            JsonSave.Save(saveClassBullet);
-            PlayerPrefs.SetInt("Json", 1);
+            if (PlayerPrefs.GetInt("Json") == 0)
+            {
+                JsonSave.Save(saveClassBullet);
+                PlayerPrefs.SetInt("Json", 1);
+            }
+
         }
-        
+
+    }
+
+
+    public static class JsonSave
+    {
+        public static void Save(SaveClassBullet cell)
+        {
+            var json = JsonUtility.ToJson(cell);
+            File.WriteAllText(Application.persistentDataPath + "/cell.json", json);
+        }
+
+
+        public static SaveClassBullet Read()
+        {
+            if (File.Exists(Application.persistentDataPath + "/cell.json"))
+            {
+                string saveString = File.ReadAllText(Application.persistentDataPath + "/cell.json");
+                return JsonUtility.FromJson<SaveClassBullet>(saveString);
+            }
+
+            return null;
+        }
+
+
     }
 
 }
 
-
-public static class JsonSave
-{
-    public static void Save(SaveClassBullet cell)
-    {
-        var json = JsonUtility.ToJson(cell);
-        File.WriteAllText(Application.persistentDataPath + "/cell.json", json);
-    }
-
-
-    public static SaveClassBullet Read()
-    {
-        if (File.Exists(Application.persistentDataPath + "/cell.json"))
-        {
-            string saveString = File.ReadAllText(Application.persistentDataPath + "/cell.json");
-            return JsonUtility.FromJson<SaveClassBullet>(saveString);
-        }
-
-        return null;
-    }
-
-
-}

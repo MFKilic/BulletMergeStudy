@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 
 
-namespace TemplateFx
+namespace TemplateFx.Controller
 {
     public class StatueController : MonoBehaviour , IHittable
     {

@@ -24,100 +24,101 @@ public class ButtonClass
 }
 
 
-public class ButtonManager : Singleton<ButtonManager>
+namespace TemplateFx.Managers
 {
-
-
-    public ButtonClass[] incrementalButtons;
-
-    [HideInInspector] public ButtonEnum buttonName;
-
-
-
-
-
-    private void Start()
+    public class ButtonManager : Singleton<ButtonManager>
     {
-        ResetPrefs();
-    }
 
-    private void ResetPrefs()
-    {
-        foreach (ButtonClass bc in incrementalButtons)
+
+        public ButtonClass[] incrementalButtons;
+
+        [HideInInspector] public ButtonEnum buttonName;
+
+
+        private void Start()
         {
-            if (PlayerPrefs.GetFloat(bc.saveName) == 0)
+            ResetPrefs();
+        }
+
+        private void ResetPrefs()
+        {
+            foreach (ButtonClass bc in incrementalButtons)
             {
-                PlayerPrefs.SetFloat(bc.saveName, bc.startPrice);
-                bc.priceText.text = TextWrite(bc.startPrice);
-                bc.button.interactable = PriceCheck(bc.startPrice);
+                if (PlayerPrefs.GetFloat(bc.saveName) == 0)
+                {
+                    PlayerPrefs.SetFloat(bc.saveName, bc.startPrice);
+                    bc.priceText.text = TextWrite(bc.startPrice);
+                    bc.button.interactable = PriceCheck(bc.startPrice);
+                }
+                else
+                {
+                    bc.price = PlayerPrefs.GetFloat(bc.saveName);
+                    bc.buttonLevel = PlayerPrefs.GetInt(bc.saveLevelName);
+                    bc.priceText.text = TextWrite(bc.price);
+                    bc.button.interactable = PriceCheck(bc.price);
+                }
+
+            }
+        }
+
+        private string TextWrite(float price)
+        {
+
+            return "$" + price.ToString("F0");
+        }
+
+        public void ButtonInteractive()
+        {
+            foreach (ButtonClass bc in incrementalButtons)
+            {
+
+                bc.button.interactable = PriceCheck(bc.price);
+
+            }
+        }
+
+        private bool PriceCheck(float price)
+        {
+            bool isActive = false;
+
+            if (price < UIManager.Instance.viewPlay.GetMoneyIndex())
+            {
+                isActive = true;
             }
             else
             {
-                bc.price = PlayerPrefs.GetFloat(bc.saveName);
-                bc.buttonLevel = PlayerPrefs.GetInt(bc.saveLevelName);
-                bc.priceText.text = TextWrite(bc.price);
-                bc.button.interactable = PriceCheck(bc.price);
+                isActive = false;
             }
 
+            return isActive;
         }
-    }
 
-    private string TextWrite(float price)
-    {
 
-        return "$" + price.ToString("F0");
-    }
-
-    public void ButtonInteractive()
-    {
-        foreach (ButtonClass bc in incrementalButtons)
+        public void OnBuyingButtonChanged(int number)
         {
 
-            bc.button.interactable = PriceCheck(bc.price);
+            ButtonClass bc = incrementalButtons[number];
 
+            float tempPrice = PlayerPrefs.GetFloat(bc.saveName);
+
+            UIManager.Instance.viewPlay.OnMoneyChange(-(int)tempPrice);
+
+            bc.buttonLevel = PlayerPrefs.GetInt(bc.saveLevelName);
+
+            bc.buttonLevel++;
+
+            PlayerPrefs.SetInt(bc.saveLevelName, bc.buttonLevel);
+
+            tempPrice *= bc.priceCross;
+
+            bc.priceText.text = TextWrite(tempPrice);
+
+            PlayerPrefs.SetFloat(bc.saveName, tempPrice);
+
+            bc.button.interactable = PriceCheck(tempPrice);
         }
+
+
     }
-
-    private bool PriceCheck(float price)
-    {
-        bool isActive = false;
-
-        if (price < UIManager.Instance.viewPlay.GetMoneyIndex())
-        {
-            isActive = true;
-        }
-        else
-        {
-            isActive = false;
-        }
-
-        return isActive;
-    }
-
-
-    public void OnBuyingButtonChanged(int number)
-    {
-
-        ButtonClass bc = incrementalButtons[number];
-
-        float tempPrice = PlayerPrefs.GetFloat(bc.saveName);
-
-        UIManager.Instance.viewPlay.OnMoneyChange(-(int)tempPrice);
-
-        bc.buttonLevel = PlayerPrefs.GetInt(bc.saveLevelName);
-
-        bc.buttonLevel++;
-
-        PlayerPrefs.SetInt(bc.saveLevelName, bc.buttonLevel);
-
-        tempPrice *= bc.priceCross;
-
-        bc.priceText.text = TextWrite(tempPrice);
-
-        PlayerPrefs.SetFloat(bc.saveName, tempPrice);
-
-        bc.button.interactable = PriceCheck(tempPrice);
-    }
-
-
 }
+

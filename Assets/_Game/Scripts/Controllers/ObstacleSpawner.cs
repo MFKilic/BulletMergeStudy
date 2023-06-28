@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TemplateFx.Managers;
 using UnityEngine;
 
-namespace TemplateFx
+namespace TemplateFx.Controller
 {
     public class ObstacleSpawner : MonoBehaviour
     {
@@ -20,8 +20,10 @@ namespace TemplateFx
         {
             for (; ; )
             {
+                
                 yield return _spawnTime;
                 Instantiate(_rocketPrefab, transform.position, Quaternion.identity, transform);
+                _spawnTime = new WaitForSeconds(Random.Range(4, 6));
             }
 
         }

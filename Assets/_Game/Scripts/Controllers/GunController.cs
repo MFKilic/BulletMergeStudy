@@ -101,10 +101,11 @@ namespace TemplateFx.Controller
 
         public override void Fire()
         {
-            if (!isActive)
+            if (!isActive || !GameState.Instance.IsPlaying())
             {
                 return;
             }
+
 
             for (int i = 0; i < fireBulletCount; i++)
             {

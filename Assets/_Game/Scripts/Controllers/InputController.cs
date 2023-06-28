@@ -49,7 +49,7 @@ namespace TemplateFx.Controller
 
         void Update()
         {
-            if ((Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor) && (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0)))
+            if ((Input.GetMouseButton(0) || Input.GetMouseButtonUp(0)))
             {
                 if (Input.GetMouseButtonDown(0))
                     TouchStarted();

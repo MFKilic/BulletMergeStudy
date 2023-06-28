@@ -6,7 +6,6 @@ using DG.Tweening;
 
 using Pixelplacement;
 using TemplateFx.Managers;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using TemplateFx.Move;
 
 namespace TemplateFx.CameraControl

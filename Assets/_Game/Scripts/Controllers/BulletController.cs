@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TemplateFx.Managers;
+using TMPro;
 using UnityEngine;
 
 namespace TemplateFx.Merge
@@ -10,7 +11,8 @@ namespace TemplateFx.Merge
         public int mergeIndex;
         public int bulletHealth;
         public BulletMergeType bulletMergeType;
-        [SerializeField] BulletMergeMovementController _bulletMergeMovementController;
+        [SerializeField] private BulletMergeMovementController _bulletMergeMovementController;
+        [SerializeField] private TextMeshPro _bulletLevelText;
         // Start is called before the first frame update
         void Start()
         {
@@ -18,6 +20,7 @@ namespace TemplateFx.Merge
             GetComponent<MeshRenderer>().material = bulletMergeType.bulletMaterial;
             bulletHealth = bulletMergeType.bulletHealth;
             mergeIndex = bulletMergeType.bulletMergeIndex;
+            _bulletLevelText.text = (mergeIndex + 1).ToString();
         }
 
         public void BulletHealthChanged(int healthIndex)
@@ -25,13 +28,13 @@ namespace TemplateFx.Merge
             bulletHealth -= healthIndex;
             if (bulletHealth <= 0)
             {
-                if(GridManager.Instance.ObjectCounter() != 1)
+                if (GridManager.Instance.ObjectCounter() != 1)
                 {
                     bulletHealth = 0;
                     BulletDestroyer();
                 }
-             
-               
+
+
             }
         }
 

@@ -19,9 +19,17 @@ namespace TemplateFx.Managers
         public GridClass[] gridClasses;
         public int objectCount;
 
-        private void Start()
+        public bool GridIsFull()
         {
-           
+            if(ObjectCounter() >= gridClasses.Length -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         public int ObjectCounter()

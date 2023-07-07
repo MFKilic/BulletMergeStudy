@@ -71,15 +71,20 @@ namespace TemplateFx.Managers
         {
             foreach (ButtonClass bc in incrementalButtons)
             {
-
-                bc.button.interactable = PriceCheck(bc.price);
-
+                bc.button.interactable = PriceCheck(PlayerPrefs.GetFloat(bc.saveName));
             }
         }
 
         private bool PriceCheck(float price)
         {
-            bool isActive = false;
+            bool isActive = !GridManager.Instance.GridIsFull();
+
+            if (!isActive)
+            {
+                return isActive;
+            }
+
+
 
             if (price < UIManager.Instance.viewPlay.GetMoneyIndex())
             {
@@ -116,6 +121,8 @@ namespace TemplateFx.Managers
             PlayerPrefs.SetFloat(bc.saveName, tempPrice);
 
             bc.button.interactable = PriceCheck(tempPrice);
+
+
         }
 
 

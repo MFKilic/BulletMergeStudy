@@ -95,6 +95,7 @@ namespace TemplateFx.Merge
 
                             GameObject mergeParticle =  PoolManager.Instance.GetPooledObject(strMergeParticle);
                             SoundManager.Instance.SoundPlay(strMergeSound);
+                            ButtonManager.Instance.ButtonInteractive();
                             mergeParticle.transform.position = transform.position;
 
                             if(mergeParticle.TryGetComponent(out ParticleSystem ps))
